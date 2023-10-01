@@ -98,8 +98,12 @@ const createIncompleteList = (todoText) => {
  * 新しいTODOを追加する
  */
 const onClickAdd = () => {
-  // テキストボックスの値を取得し、初期化する
+  // テキストボックスの値を取得する
   const inputTodoText = document.getElementById("add-todo-text").value;
+  if (inputTodoText.trim() === "") {
+    return;
+  }
+  // テキストボックスの値を初期化する
   document.getElementById("add-todo-text").value = "";
 
   // 未完了のTODOに新しい要素(TODO)を追加する
