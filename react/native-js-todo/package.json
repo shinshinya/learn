@@ -1,0 +1,20 @@
+{
+  "name": "native-js-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:nodemon\" \"npm run start:browser-sync\"",
+    "start:nodemon": "nodemon src/index.js",
+    "start:browser-sync": "browser-sync start --config bs-config.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "concurrently": "^8.2.1",
+    "express": "^4.18.2",
+    "nodemon": "^3.0.1"
+  }
+}
