@@ -1,8 +1,32 @@
 /**
- * 未完了リストから指定の要素を削除する
+ * 未完了のTODOリストから指定の要素を削除する
  */
 const deleteFromIncompleteList = (target) => {
   document.getElementById("incomplete-list").removeChild(target);
+};
+
+/**
+ * 完了のTODOリストから指定の要素を削除する
+ */
+const deleteFromCompleteList = (target) => {
+  document.getElementById("complete-list").removeChild(target);
+};
+
+/**
+ * 削除ボタンを作成する
+ */
+const createDeleteButton = (isComplete) => {
+  const deleteButton = document.createElement("button");
+  deleteButton.innerText = "削除";
+  deleteButton.addEventListener("click", () => {
+    if (isComplete) {
+      deleteFromCompleteList(deleteButton.parentNode);
+    } else {
+      // 押された削除ボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
+      deleteFromIncompleteList(deleteButton.parentNode);
+    }
+  });
+  return deleteButton;
 };
 
 /**
@@ -43,7 +67,7 @@ const createIncompleteList = (todoText) => {
     backButton.addEventListener("click", () => {
       // 押された戻るボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
       const deleteTarget = backButton.parentNode;
-      document.getElementById("complete-list").removeChild(deleteTarget);
+      deleteFromCompleteList(deleteTarget);
 
       // テキストを取得
       const backText = deleteTarget.firstElementChild.innerText;
@@ -55,23 +79,16 @@ const createIncompleteList = (todoText) => {
     // divタグ(完了したTODOリストに追加する要素)の子要素に各要素を設定
     addTodo.appendChild(li);
     addTodo.appendChild(backButton);
+    addTodo.appendChild(createDeleteButton(true));
 
     // 完了したTODOリストにTODOを作成
     document.getElementById("complete-list").appendChild(addTodo);
   });
 
-  // button(削除)ボタン生成
-  const deleteButton = document.createElement("button");
-  deleteButton.innerText = "削除";
-  deleteButton.addEventListener("click", () => {
-    // 押された削除ボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
-    deleteFromIncompleteList(deleteButton.parentNode);
-  });
-
   // divタグ(未完了のTODOリストに追加する要素)の子要素に各要素を設定
   div.appendChild(li);
   div.appendChild(completeButton);
-  div.appendChild(deleteButton);
+  div.appendChild(createDeleteButton(false));
 
   // 未完了のTODOリストにTODOを作成
   document.getElementById("incomplete-list").appendChild(div);
