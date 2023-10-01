@@ -13,85 +13,65 @@ const deleteFromCompleteList = (target) => {
 };
 
 /**
- * 削除ボタンを作成する
+ * 完了したTODOリストに要素(TODO)を追加する
  */
-const createDeleteButton = (isComplete) => {
+const createCompleteList = (todoText) => {
+  const todoItem = createTodoItem(todoText, true);
+  document.getElementById("complete-list").appendChild(todoItem);
+};
+
+/**
+ * TODO要素を生成する
+ */
+const createTodoItem = (text, isComplete) => {
+  const div = document.createElement("div");
+  div.className = "list-row";
+
+  const li = document.createElement("li");
+  li.innerText = text;
+
+  const newButton = document.createElement("button");
+  newButton.innerText = isComplete ? "戻す" : "完了";
+  newButton.addEventListener("click", () => {
+    if (isComplete) {
+      // 完了のTODO要素の戻すボタンがクリックされた場合
+      const todoItem = newButton.parentNode;
+      deleteFromCompleteList(todoItem);
+      const todoText = todoItem.firstElementChild.innerText;
+      createIncompleteList(todoText);
+    } else {
+      // 未完了のTODO要素の完了ボタンがクリックされた場合
+      const todoItem = newButton.parentNode;
+      deleteFromIncompleteList(todoItem);
+      const todoText = todoItem.firstElementChild.innerText;
+      createCompleteList(todoText);
+    }
+  });
+
   const deleteButton = document.createElement("button");
   deleteButton.innerText = "削除";
   deleteButton.addEventListener("click", () => {
+    const todoItem = deleteButton.parentNode;
     if (isComplete) {
-      deleteFromCompleteList(deleteButton.parentNode);
+      deleteFromCompleteList(todoItem);
     } else {
-      // 押された削除ボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
-      deleteFromIncompleteList(deleteButton.parentNode);
+      deleteFromIncompleteList(todoItem);
     }
   });
-  return deleteButton;
+
+  div.appendChild(li);
+  div.appendChild(newButton);
+  div.appendChild(deleteButton);
+
+  return div;
 };
 
 /**
  * 未完了のTODOリストに要素(TODO)を追加する
  */
 const createIncompleteList = (todoText) => {
-  // div生成
-  const div = document.createElement("div");
-  div.className = "list-row";
-
-  // li生成
-  const li = document.createElement("li");
-  li.innerText = todoText;
-
-  // button(完了)ボタン生成
-  const completeButton = document.createElement("button");
-  completeButton.innerText = "完了";
-  completeButton.addEventListener("click", () => {
-    // 完了のTODOリストに追加する要素(TODO)を取得
-    const addTodo = completeButton.parentNode;
-
-    // 押された完了ボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
-    deleteFromIncompleteList(completeButton.parentNode);
-
-    // テキストを取得
-    const completeText = addTodo.firstElementChild.innerText;
-
-    // div以下を初期化
-    addTodo.textContent = null;
-
-    // liタグ生成
-    const li = document.createElement("li");
-    li.innerText = completeText;
-
-    // button(戻る)タグ生成
-    const backButton = document.createElement("button");
-    backButton.innerText = "戻す";
-    backButton.addEventListener("click", () => {
-      // 押された戻るボタンの親タグ<div>(TODO)を未完了のTODOリストから削除
-      const deleteTarget = backButton.parentNode;
-      deleteFromCompleteList(deleteTarget);
-
-      // テキストを取得
-      const backText = deleteTarget.firstElementChild.innerText;
-
-      // 未完了のTODOリストに新しい要素(TODO)を追加する
-      createIncompleteList(backText);
-    });
-
-    // divタグ(完了したTODOリストに追加する要素)の子要素に各要素を設定
-    addTodo.appendChild(li);
-    addTodo.appendChild(backButton);
-    addTodo.appendChild(createDeleteButton(true));
-
-    // 完了したTODOリストにTODOを作成
-    document.getElementById("complete-list").appendChild(addTodo);
-  });
-
-  // divタグ(未完了のTODOリストに追加する要素)の子要素に各要素を設定
-  div.appendChild(li);
-  div.appendChild(completeButton);
-  div.appendChild(createDeleteButton(false));
-
-  // 未完了のTODOリストにTODOを作成
-  document.getElementById("incomplete-list").appendChild(div);
+  const todoItem = createTodoItem(todoText, false);
+  document.getElementById("incomplete-list").appendChild(todoItem);
 };
 
 /**
@@ -100,16 +80,13 @@ const createIncompleteList = (todoText) => {
 const onClickAdd = () => {
   // テキストボックスの値を取得する
   const inputTodoText = document.getElementById("add-todo-text").value;
-  if (inputTodoText.trim() === "") {
-    return;
-  }
-  // テキストボックスの値を初期化する
-  document.getElementById("add-todo-text").value = "";
 
-  // 未完了のTODOに新しい要素(TODO)を追加する
-  createIncompleteList(inputTodoText);
+  if (inputTodoText.trim() !== "") {
+    // テキストボックスの値を初期化する
+    document.getElementById("add-todo-text").value = "";
+
+    createIncompleteList(inputTodoText);
+  }
 };
 
-document
-  .getElementById("add-button")
-  .addEventListener("click", () => onClickAdd());
+document.getElementById("add-button").addEventListener("click", onClickAdd);
