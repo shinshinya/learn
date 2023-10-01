@@ -22,7 +22,7 @@ button:hover {
 }
 
 li {
-  margin-right: 8px
+  margin-right: 8px;
 }
 
 .input-area {
@@ -63,4 +63,8 @@ li {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
+}
+
+#complete-list li {
+  text-decoration: line-through;
 }
