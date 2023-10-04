@@ -82,11 +82,10 @@ const onClickAdd = () => {
   const inputTodoText = document.getElementById("add-todo-text").value;
 
   if (inputTodoText.trim() !== "") {
-    // テキストボックスの値を初期化する
-    document.getElementById("add-todo-text").value = "";
-
     createIncompleteList(inputTodoText);
   }
+  // テキストボックスの値を初期化する
+  document.getElementById("add-todo-text").value = "";
 };
 
 document.getElementById("add-button").addEventListener("click", onClickAdd);
