@@ -2,10 +2,10 @@
   "name": "native-js-todo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.jsx",
   "scripts": {
     "start": "concurrently \"npm run start:nodemon\" \"npm run start:browser-sync\"",
-    "start:nodemon": "nodemon src/index.js",
+    "start:nodemon": "nodemon src/index.jsx",
     "start:browser-sync": "browser-sync start --config bs-config.js"
   },
   "keywords": [],
