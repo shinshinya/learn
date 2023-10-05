@@ -10,7 +10,7 @@ const style = {
   borderRadius: "8px",
 };
 
-export const InputTodo = ({ todoText, onChange, onClick }) => {
+export const InputTodo = ({ todoText, onChange, onClick, disabled }) => {
   return (
     <div style={style} className="input-area">
       <input
@@ -18,8 +18,9 @@ export const InputTodo = ({ todoText, onChange, onClick }) => {
         placeholder="TODOを入力"
         value={todoText}
         onChange={onChange}
+        disabled={disabled}
       />
-      <button id="add-button" onClick={onClick}>
+      <button id="add-button" onClick={onClick} disabled={disabled}>
         追加
       </button>
     </div>
